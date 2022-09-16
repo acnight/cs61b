@@ -17,7 +17,7 @@ public class ArrayDeque<T> {
     public int size() {
         return size;
     }
-    public int minusOne(int index, int mode) { //return the before point' number
+    private int minusOne(int index, int mode) { //return the before point' number
         if (index == mode - 1) {
             return 0;
         } else {
@@ -199,7 +199,7 @@ public class ArrayDeque<T> {
 
 
     /*--------------Test!!!!!--------------*/
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
 //        ArrayDeque<Integer> m = new ArrayDeque<>();
 //        m.addFirst(1);
 //        m.addFirst(2);
@@ -219,14 +219,14 @@ public class ArrayDeque<T> {
 //
 //        m.printDeque();
 //        System.out.println();
-////        System.out.println(m.size);
-////        System.out.println(m.firstPoint);
-////        m.removeFirst();
-////        m.removeLast();
-////        m.printDeque();
-////        System.out.println();
-////        System.out.println(m.size());
+//        System.out.println(m.removeFirst());
+//        System.out.println(m.firstPoint);
+//        m.removeFirst();
+//        m.removeLast();
+//        m.printDeque();
+//        System.out.println();
+//        System.out.println(m.size());
 //        System.out.println(m.get(8));
-    }
+//    }
 }
 
