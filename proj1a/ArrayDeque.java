@@ -195,9 +195,6 @@ public class ArrayDeque<T> {
             return theQueue[firstPoint + index - size];
         }
     }
-
-
-
     /*--------------Test!!!!!--------------*/
 //    public static void main(String[] args) {
 //        ArrayDeque<Integer> m = new ArrayDeque<>();
@@ -205,12 +202,16 @@ public class ArrayDeque<T> {
 //        m.addFirst(2);
 //        m.addFirst(3);
 //        m.addFirst(4);
+//        m.addLast(5);
+//        m.addLast(6);
+//        m.addLast(7);
 //        m.addFirst(5);
 //        m.addFirst(6);
 //        m.addFirst(7);
 //        m.addFirst(8);
 //        m.addFirst(9);
 //        m.addFirst(10);
+//        System.out.println(m.get(1));
 //        m.addLast(1);
 //        m.addLast(2);
 //        m.addLast(3);
