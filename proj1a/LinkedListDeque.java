@@ -102,12 +102,12 @@ public class LinkedListDeque<T> {
         } else if (size == 1) {
             return removeFirst();
         }
-            T d = sentinel.prev.item;
-            IntNode a = sentinel.prev.prev;
-            a.next = sentinel;
-            sentinel.prev = a;
-            size -= 1;
-            return d;
+        T d = sentinel.prev.item;
+        IntNode a = sentinel.prev.prev;
+        a.next = sentinel;
+        sentinel.prev = a;
+        size -= 1;
+        return d;
 
     }
     public T get(int index) {

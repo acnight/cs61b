@@ -79,14 +79,15 @@ public class ArrayDeque<T> {
                 theQueue = a;
                 theQueue[size] = item;
                 size += 1;
+            } else {
+                T[] a = (T[]) new Object[size + 1];
+                System.arraycopy(theQueue, 0, a, 0, firstPoint);
+                System.arraycopy(theQueue, firstPoint, a, firstPoint + 1, size - firstPoint);
+                theQueue = a;
+                theQueue[firstPoint] = item;
+                firstPoint += 1;
+                size += 1;
             }
-            T[] a = (T[]) new Object[size + 1];
-            System.arraycopy(theQueue, 0, a, 0, firstPoint);
-            System.arraycopy(theQueue, firstPoint, a, firstPoint + 1, size - firstPoint);
-            theQueue = a;
-            theQueue[firstPoint] = item;
-            firstPoint += 1;
-            size += 1;
         }
 
     }
@@ -119,67 +120,88 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if (size < 8) {
-            if (theQueue[firstPoint] == null) {
-                return null;
-            } else {
-                T b = theQueue[firstPoint];
-                int n = firstPoint;
-                for (int i = 0; i < size - 1; i++) {
-                    theQueue[n] = theQueue[minusOne(n, 8)];
-                    n = minusOne(n, 8);
-                }
-                size -= 1;
-                return b;
-            }
+        if (size == 0){
+            return null;
         } else {
-            T q = theQueue[firstPoint];
-            int n = firstPoint;
-            int m = firstPoint;
-            T[] a = (T[]) new Object[size - 1];
-            for (int i = 0; i < size - 1; i++) {
-                m = minusOne(m, size);
-                a[n] = theQueue[m];
-                n = minusOne(n, size - 1);
+            if (size < 9) {
+                if (firstPoint == 0) {
+                    T b = theQueue[firstPoint];
+                    int n = firstPoint;
+                    for (int i = 0; i < size - 1; i++) {
+                        theQueue[n] = theQueue[minusOne(n, 8)];
+                        n = minusOne(n, 8);
+                    }
+                    size -= 1;
+                    return b;
+                }else{
+                    T b = theQueue[firstPoint];
+                    size -= 1;
+                    firstPoint = minusOne(firstPoint, 8);
+                    return b;
+                }
+            } else {
+                T q = theQueue[firstPoint];
+                int n = firstPoint;
+                int m = firstPoint;
+                T[] a = (T[]) new Object[size - 1];
+                for (int i = 0; i < size - 1; i++) {
+                    m = minusOne(m, size);
+                    a[n] = theQueue[m];
+                    n = minusOne(n, size - 1);
+                }
+                theQueue = a;
+                size -= 1;
+                return q;
             }
-            theQueue = a;
-            size -= 1;
-            return q;
+
         }
+
     }
     public T removeLast() {
-        if (size < 8) {
-            if (theQueue[firstPoint] == null) {
-                return null;
+        if (size == 0) {
+            return null;
+        } else if (size < 8) {
+                if (9 - size > firstPoint) {
+                    T b = theQueue[firstPoint + size - 1];
+                    for(int i = firstPoint; i < 7; i++) {
+                        theQueue[minusOne(i, 8)] = theQueue[i];
+                    }
+                        firstPoint = minusOne(firstPoint, 8);
+                        size -= 1;
+                        return b;
+                } else if (firstPoint == 0) {
+                    T b = theQueue[size - 1];
+                    size -= 1;
+                    return b;
+                } else  {
+                    T b = theQueue[firstPoint + size - 9];
+                    size -= 1;
+                    return b;
+                }
             } else {
-                T b = theQueue[size - 1];
-                size -= 1;
-                return b;
-            }
-        } else {
-            if (firstPoint == 0) {
-                T b = theQueue[size - 1];
-                T[] a = (T[]) new Object[size - 1];
-                System.arraycopy(theQueue, 0, a, 0, size - 1);
-                theQueue = a;
-                size -= 1;
-                return b;
-            } else {
-                T b = theQueue[firstPoint - 1];
-                T[] a = (T[]) new Object[size - 1];
+                if (firstPoint == 0) {
+                    T b = theQueue[size - 1];
+                    T[] a = (T[]) new Object[size - 1];
+                    System.arraycopy(theQueue, 0, a, 0, size - 1);
+                    theQueue = a;
+                    size -= 1;
+                    return b;
+                } else {
+                    T b = theQueue[firstPoint - 1];
+                    T[] a = (T[]) new Object[size - 1];
 
-                for (int i = 0; i < firstPoint - 1; i++) {
-                    a[i] = theQueue[i];
+                    for (int i = 0; i < firstPoint - 1; i++) {
+                        a[i] = theQueue[i];
+                    }
+                    for (int i = firstPoint - 1; i < size - 1; i++) {
+                        a[i] = theQueue[i + 1];
+                    }
+                    theQueue = a;
+                    firstPoint -= 1;
+                    size -= 1;
+                    return b;
                 }
-                for (int i = firstPoint - 1; i < size - 1; i++) {
-                    a[i] = theQueue[i + 1];
-                }
-                theQueue = a;
-                firstPoint -= 1;
-                size -= 1;
-                return b;
             }
-        }
     }
 
     public T get(int index) {
@@ -202,9 +224,17 @@ public class ArrayDeque<T> {
 //        m.addFirst(2);
 //        m.addFirst(3);
 //        m.addFirst(4);
-//        m.addLast(5);
-//        m.addLast(6);
-//        m.addLast(7);
+//        m.addFirst(0);
+//        m.removeFirst();     //==> 0
+//        m.addLast(2);
+//        m.addFirst(3);
+//        System.out.print(m.removeLast());      //==> null
+//
+//        System.out.println(m.removeLast());     //==> null
+//        System.out.println(m.get(1));
+//        System.out.println(m.removeFirst());
+//        System.out.println(m.removeLast());
+//
 //        m.addFirst(5);
 //        m.addFirst(6);
 //        m.addFirst(7);
@@ -212,22 +242,13 @@ public class ArrayDeque<T> {
 //        m.addFirst(9);
 //        m.addFirst(10);
 //        System.out.println(m.get(1));
-//        m.addLast(1);
-//        m.addLast(2);
-//        m.addLast(3);
-//
-//
-//
 //        m.printDeque();
 //        System.out.println();
 //        System.out.println(m.removeFirst());
 //        System.out.println(m.firstPoint);
-//        m.removeFirst();
-//        m.removeLast();
 //        m.printDeque();
-//        System.out.println();
 //        System.out.println(m.size());
-//        System.out.println(m.get(8));
+//        System.out.println(m.get(0));
 //    }
 }
 
