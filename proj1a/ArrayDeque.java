@@ -98,7 +98,7 @@ public class ArrayDeque<T> {
                 for (int i = 0; i < size; i++) {
                     System.out.print(theQueue[i] + " ");
                 }
-                }
+            }
         } else {
             if (size > 8) {
                 for (int i = firstPoint; i < size; i++) {
@@ -108,10 +108,10 @@ public class ArrayDeque<T> {
                     System.out.print(theQueue[i] + " ");
                 }
             } else {
-                for(int i = firstPoint; i < 8; i ++){
+                for (int i = firstPoint; i < 8; i++) {
                     System.out.print(theQueue[i] + " ");
                 }
-                for (int i = 0; i < firstPoint - 8 + size; i ++ ) {
+                for (int i = 0; i < firstPoint - 8 + size; i++) {
                     System.out.print(theQueue[i] + " ");
                 }
             }

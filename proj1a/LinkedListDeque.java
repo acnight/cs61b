@@ -57,7 +57,7 @@ public class LinkedListDeque<T> {
         return size;
     }
     public void addLast(T item) {
-        if (isEmpty() == true) {
+        if (isEmpty()) {
             addFirst(item);
         }
         IntNode a = new IntNode(null, item, null);
@@ -85,7 +85,7 @@ public class LinkedListDeque<T> {
         }
     }
     public T removeFirst() {
-        if (isEmpty() == true) {
+        if (isEmpty()) {
             return null;
         }
         T d = theQueue.item;
@@ -97,7 +97,7 @@ public class LinkedListDeque<T> {
 
     }
     public T removeLast() {
-        if (isEmpty() == true) {
+        if (isEmpty()) {
             return null;
         } else if (size == 1) {
             removeFirst();
@@ -137,14 +137,14 @@ public class LinkedListDeque<T> {
 
 
     /*--------------------Here is the Test!!!!! ----------------------*/
-    public static void main(String[] args) {
-        LinkedListDeque<Integer> m = new LinkedListDeque<>();
+//    public static void main(String[] args) {
+//        LinkedListDeque<Integer> m = new LinkedListDeque<>();
 //        m.addFirst(889);
 //        m.addFirst(5);
 //        m.removeLast();
-        m.addLast(7);
-
-        System.out.println(m.removeLast());
+//        m.addLast(7);
+//
+//        System.out.println(m.removeLast());
 //
 //       System.out.println(m.isEmpty());
 //
@@ -168,5 +168,5 @@ public class LinkedListDeque<T> {
 //        System.out.println(o.isEmpty());
 //        System.out.println(m.getRecursive(3));
 
-   }
+//   }
 }
