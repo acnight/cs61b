@@ -167,6 +167,5 @@ public class LinkedListDeque<T> {
 //        o.removeLast();
 //        System.out.println(o.isEmpty());
 //        System.out.println(m.getRecursive(3));
-
-   }
+    }
 }
