@@ -199,7 +199,7 @@ public class ArrayDeque<T> {
 
 
     /*--------------Test!!!!!--------------*/
-//    public static void main(String[] args){
+    public static void main(String[] args){
 //        ArrayDeque<Integer> m = new ArrayDeque<>();
 //        m.addFirst(1);
 //        m.addFirst(2);
@@ -227,6 +227,6 @@ public class ArrayDeque<T> {
 ////        System.out.println();
 ////        System.out.println(m.size());
 //        System.out.println(m.get(8));
-//    }
+    }
 }
 

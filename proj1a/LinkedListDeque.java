@@ -137,7 +137,7 @@ public class LinkedListDeque<T> {
 
 
     /*--------------------Here is the Test!!!!! ----------------------*/
-//    public static void main(String[] args) {
+    public static void main(String[] args) {
 //        LinkedListDeque<Integer> m = new LinkedListDeque<>();
 //        m.addFirst(889);
 //        m.addFirst(5);
@@ -168,5 +168,5 @@ public class LinkedListDeque<T> {
 //        System.out.println(o.isEmpty());
 //        System.out.println(m.getRecursive(3));
 
-//   }
+   }
 }
