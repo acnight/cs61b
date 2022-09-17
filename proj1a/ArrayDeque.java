@@ -59,7 +59,7 @@ public class ArrayDeque<T> {
         }
     }
     public void addLast(T item) {
-        if (size < 9) {
+        if (size < 8) {
             if (firstPoint == 0) {
                 if (theQueue[firstPoint] == null) {
                     theQueue[0] = item;
@@ -159,7 +159,7 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         } else if (size < 9) {
-            if (8 - size == firstPoint) {
+            if ((8 - size == firstPoint) && (firstPoint != 0) ) {
                 T b = theQueue[firstPoint + size - 1];
                 for (int i = 7; i > firstPoint; i--) {
                     theQueue[i] = theQueue[i - 1];
@@ -213,15 +213,9 @@ public class ArrayDeque<T> {
             return theQueue[firstPoint + index - size];
         }
     }
-    /*--------------Test!!!!!--------------*/
+//    /*--------------Test!!!!!--------------*/
 //    public static void main(String[] args) {
 //        ArrayDeque<Integer> ArrayDeque = new ArrayDeque<>();
-//        ArrayDeque.addFirst(0);
-//        ArrayDeque.addFirst(5);
-//        ArrayDeque.addLast(1);
-//        ArrayDeque.addLast(2);
-//        ArrayDeque.addLast(3);
-//        ArrayDeque.addLast(5);
+//        System.out.println(ArrayDeque.removeLast());      //==> 5
 //    }
 }
-
