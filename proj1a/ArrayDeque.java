@@ -1,3 +1,5 @@
+import java.io.FileReader;
+
 public class ArrayDeque<T> {
     private T[] theQueue;
     private int size;
@@ -49,13 +51,14 @@ public class ArrayDeque<T> {
                 theQueue = a;
                 theQueue[firstPoint] = item;
                 size += 1;
+            } else{
+                T[] a = (T[]) new Object[size + 1];
+                System.arraycopy(theQueue, 0, a, 0, firstPoint);
+                System.arraycopy(theQueue, firstPoint, a, firstPoint + 1, size - firstPoint);
+                theQueue = a;
+                theQueue[firstPoint] = item;
+                size += 1;
             }
-            T[] a = (T[]) new Object[size + 1];
-            System.arraycopy(theQueue, 0, a, 0, firstPoint);
-            System.arraycopy(theQueue, firstPoint, a, firstPoint + 1, size - firstPoint);
-            theQueue = a;
-            theQueue[firstPoint] = item;
-            size += 1;
         }
     }
     public void addLast(T item) {
@@ -141,13 +144,13 @@ public class ArrayDeque<T> {
                 }
             } else {
                 T q = theQueue[firstPoint];
-                int n = firstPoint;
-                int m = firstPoint;
+
                 T[] a = (T[]) new Object[size - 1];
-                for (int i = 0; i < size - 1; i++) {
-                    m = minusOne(m, size);
-                    a[n] = theQueue[m];
-                    n = minusOne(n, size - 1);
+                for (int i = 0; i < firstPoint; i++) {
+                    a[i] = theQueue[i];
+                }
+                for (int i = firstPoint; i < size - 1; i++){
+                    a[i] = theQueue[i];
                 }
                 theQueue = a;
                 size -= 1;
@@ -159,7 +162,7 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         } else if (size < 9) {
-            if ((8 - size == firstPoint) && (firstPoint != 0) ) {
+            if ((8 - size == firstPoint) && (firstPoint != 0)) {
                 T b = theQueue[firstPoint + size - 1];
                 for (int i = 7; i > firstPoint; i--) {
                     theQueue[i] = theQueue[i - 1];
@@ -216,6 +219,24 @@ public class ArrayDeque<T> {
 //    /*--------------Test!!!!!--------------*/
 //    public static void main(String[] args) {
 //        ArrayDeque<Integer> ArrayDeque = new ArrayDeque<>();
-//        System.out.println(ArrayDeque.removeLast());      //==> 5
+//        ArrayDeque.addFirst(0);
+//        System.out.println(ArrayDeque.get(0));      //==> 0
+//        ArrayDeque.addLast(2);
+//        ArrayDeque.addLast(3);
+//        System.out.println(ArrayDeque.removeFirst());     //==> 0
+//        ArrayDeque.addLast(5);
+//        ArrayDeque.addFirst(6);
+//        ArrayDeque.addLast(7);
+//        ArrayDeque.addLast(8);
+//        System.out.println(ArrayDeque.removeFirst());     //==> 6
+//        ArrayDeque.addLast(10);
+//        ArrayDeque.addLast(11);
+//        ArrayDeque.addLast(12);
+//        ArrayDeque.addFirst(13);
+//        System.out.println(ArrayDeque.removeFirst());     //==> 13
+//        ArrayDeque.addFirst(15);
+//        ArrayDeque.addFirst(16);
+//        System.out.println(ArrayDeque.removeFirst());     //==> 16
+//        System.out.println(ArrayDeque.get(1));       //==> 2
 //    }
 }
