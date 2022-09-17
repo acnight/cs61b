@@ -59,7 +59,7 @@ public class ArrayDeque<T> {
         }
     }
     public void addLast(T item) {
-        if (size < 8) {
+        if (size < 9) {
             if (firstPoint == 0) {
                 if (theQueue[firstPoint] == null) {
                     theQueue[0] = item;
@@ -159,11 +159,11 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         } else if (size < 9) {
-            if (9 - size > firstPoint) {
+            if (8 - size == firstPoint) {
                 T b = theQueue[firstPoint + size - 1];
-                for(int i = 7; i > firstPoint; i--) {
+                for (int i = 7; i > firstPoint; i--) {
                     theQueue[i] = theQueue[i - 1];
-                    }
+                }
                 firstPoint = minusOne(firstPoint, 8);
                 size -= 1;
                 return b;
@@ -187,7 +187,6 @@ public class ArrayDeque<T> {
             } else {
                 T b = theQueue[firstPoint - 1];
                 T[] a = (T[]) new Object[size - 1];
-
                 for (int i = 0; i < firstPoint - 1; i++) {
                     a[i] = theQueue[i];
                 }
@@ -218,16 +217,11 @@ public class ArrayDeque<T> {
 //    public static void main(String[] args) {
 //        ArrayDeque<Integer> ArrayDeque = new ArrayDeque<>();
 //        ArrayDeque.addFirst(0);
-//        ArrayDeque.addFirst(1);
-//        ArrayDeque.addFirst(2);
-//        ArrayDeque.addFirst(3);
 //        ArrayDeque.addFirst(5);
-//        System.out.println(ArrayDeque.removeLast());      //==> 0
-//        ArrayDeque.addFirst(7);
-//        ArrayDeque.addFirst(8);
-//        System.out.println(ArrayDeque.removeLast());     // ==> 1
-//        ArrayDeque.addFirst(10);
-//        System.out.println(ArrayDeque.removeLast());      //==> 8
+//        ArrayDeque.addLast(1);
+//        ArrayDeque.addLast(2);
+//        ArrayDeque.addLast(3);
+//        ArrayDeque.addLast(5);
 //    }
 }
 
