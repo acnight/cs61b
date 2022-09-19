@@ -127,12 +127,10 @@ public class ArrayDeque<T> {
             if (size < 9) {
                 if (firstPoint == 0) {
                     T b = theQueue[firstPoint];
-                    int n = firstPoint;
-                    for (int i = 0; i < size - 1; i++) {
-                        theQueue[n] = theQueue[minusOne(n, 8)];
-                        n = minusOne(n, 8);
-                    }
+                    T[] a = (T[]) new Object[size];
+                    System.arraycopy(theQueue, 1, a, 0, size - 1);
                     size -= 1;
+                    theQueue = a;
                     return b;
                 } else {
                     T b = theQueue[firstPoint];
@@ -144,12 +142,8 @@ public class ArrayDeque<T> {
                 T q = theQueue[firstPoint];
 
                 T[] a = (T[]) new Object[size - 1];
-                for (int i = 0; i < firstPoint; i++) {
-                    a[i] = theQueue[i];
-                }
-                for (int i = firstPoint; i < size - 1; i++) {
-                    a[i] = theQueue[i + 1];
-                }
+                System.arraycopy(theQueue, 0, a, 0, firstPoint);
+                System.arraycopy(theQueue, firstPoint + 1, a, firstPoint, size - 1 - firstPoint);
                 theQueue = a;
                 size -= 1;
                 if (firstPoint == size) {
@@ -191,12 +185,8 @@ public class ArrayDeque<T> {
             } else {
                 T b = theQueue[firstPoint - 1];
                 T[] a = (T[]) new Object[size - 1];
-                for (int i = 0; i < firstPoint - 1; i++) {
-                    a[i] = theQueue[i];
-                }
-                for (int i = firstPoint - 1; i < size - 1; i++) {
-                    a[i] = theQueue[i + 1];
-                }
+                System.arraycopy(theQueue, 0, a, 0, firstPoint - 1);
+                System.arraycopy(theQueue, firstPoint, a, firstPoint - 1, size - firstPoint + 1);
                 theQueue = a;
                 firstPoint -= 1;
                 size -= 1;
@@ -234,7 +224,7 @@ public class ArrayDeque<T> {
 //                 ArrayDeque.addLast(11);
 //                 ArrayDeque.addLast(12);
 //                 ArrayDeque.get(4);      //==> 7
-//                 ArrayDeque.removeFirst();     //==> 2
+//                 System.out.println(ArrayDeque.removeFirst());     //==> 2
 //                 ArrayDeque.removeFirst();
 //    }
 }
