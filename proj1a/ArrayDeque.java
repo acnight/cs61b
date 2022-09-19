@@ -159,9 +159,8 @@ public class ArrayDeque<T> {
         } else if (size < 9) {
             if ((8 - size == firstPoint) && (firstPoint != 0)) {
                 T b = theQueue[firstPoint + size - 1];
-                for (int i = 7; i > firstPoint; i--) {
-                    theQueue[i] = theQueue[i - 1];
-                }
+                T[] a = (T[]) new Object[8];
+                System.arraycopy(theQueue, firstPoint + 1, a, firstPoint + 1, size - 1);
                 firstPoint = minusOne(firstPoint, 8);
                 size -= 1;
                 return b;
