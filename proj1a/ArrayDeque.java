@@ -1,5 +1,3 @@
-import java.io.FileReader;
-
 public class ArrayDeque<T> {
     private T[] theQueue;
     private int size;
@@ -51,7 +49,7 @@ public class ArrayDeque<T> {
                 theQueue = a;
                 theQueue[firstPoint] = item;
                 size += 1;
-            } else{
+            } else {
                 T[] a = (T[]) new Object[size + 1];
                 System.arraycopy(theQueue, 0, a, 0, firstPoint);
                 System.arraycopy(theQueue, firstPoint, a, firstPoint + 1, size - firstPoint);
@@ -149,8 +147,8 @@ public class ArrayDeque<T> {
                 for (int i = 0; i < firstPoint; i++) {
                     a[i] = theQueue[i];
                 }
-                for (int i = firstPoint; i < size - 1; i++){
-                    a[i] = theQueue[i];
+                for (int i = firstPoint; i < size - 1; i++) {
+                    a[i] = theQueue[i + 1];
                 }
                 theQueue = a;
                 size -= 1;
@@ -219,24 +217,25 @@ public class ArrayDeque<T> {
 //    /*--------------Test!!!!!--------------*/
 //    public static void main(String[] args) {
 //        ArrayDeque<Integer> ArrayDeque = new ArrayDeque<>();
-//        ArrayDeque.addFirst(0);
-//        System.out.println(ArrayDeque.get(0));      //==> 0
+//        ArrayDeque.addLast(0);
+//        ArrayDeque.removeFirst();     //==> 0
 //        ArrayDeque.addLast(2);
-//        ArrayDeque.addLast(3);
-//        System.out.println(ArrayDeque.removeFirst());     //==> 0
-//        ArrayDeque.addLast(5);
-//        ArrayDeque.addFirst(6);
-//        ArrayDeque.addLast(7);
+//        ArrayDeque.addFirst(3);
+//        ArrayDeque.addFirst(4);
+//        ArrayDeque.get(0);      //==> 4
+//        ArrayDeque.addLast(6);
+//        ArrayDeque.removeLast();      //==> 6
 //        ArrayDeque.addLast(8);
-//        System.out.println(ArrayDeque.removeFirst());     //==> 6
-//        ArrayDeque.addLast(10);
+//        ArrayDeque.addFirst(9);
+//        ArrayDeque.get(2);      //==> 3
 //        ArrayDeque.addLast(11);
 //        ArrayDeque.addLast(12);
 //        ArrayDeque.addFirst(13);
-//        System.out.println(ArrayDeque.removeFirst());     //==> 13
-//        ArrayDeque.addFirst(15);
+//        ArrayDeque.removeLast();      //==> 12
+//        ArrayDeque.addLast(15);
 //        ArrayDeque.addFirst(16);
 //        System.out.println(ArrayDeque.removeFirst());     //==> 16
-//        System.out.println(ArrayDeque.get(1));       //==> 2
+//        ArrayDeque.get(5);      //==> 8
+//        System.out.println(ArrayDeque.get(3));      //==> 4
 //    }
 }
