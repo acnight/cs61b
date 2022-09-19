@@ -152,6 +152,9 @@ public class ArrayDeque<T> {
                 }
                 theQueue = a;
                 size -= 1;
+                if (firstPoint == size) {
+                    firstPoint = 0;
+                }
                 return q;
             }
         }
@@ -217,25 +220,21 @@ public class ArrayDeque<T> {
 //    /*--------------Test!!!!!--------------*/
 //    public static void main(String[] args) {
 //        ArrayDeque<Integer> ArrayDeque = new ArrayDeque<>();
-//        ArrayDeque.addLast(0);
-//        ArrayDeque.removeFirst();     //==> 0
-//        ArrayDeque.addLast(2);
-//        ArrayDeque.addFirst(3);
-//        ArrayDeque.addFirst(4);
-//        ArrayDeque.get(0);      //==> 4
-//        ArrayDeque.addLast(6);
-//        ArrayDeque.removeLast();      //==> 6
-//        ArrayDeque.addLast(8);
-//        ArrayDeque.addFirst(9);
-//        ArrayDeque.get(2);      //==> 3
-//        ArrayDeque.addLast(11);
-//        ArrayDeque.addLast(12);
-//        ArrayDeque.addFirst(13);
-//        ArrayDeque.removeLast();      //==> 12
-//        ArrayDeque.addLast(15);
-//        ArrayDeque.addFirst(16);
-//        System.out.println(ArrayDeque.removeFirst());     //==> 16
-//        ArrayDeque.get(5);      //==> 8
-//        System.out.println(ArrayDeque.get(3));      //==> 4
+//                 ArrayDeque.addLast(0);
+//                 ArrayDeque.get(0);      //==> 0
+//                 ArrayDeque.addFirst(2);
+//                 ArrayDeque.addFirst(3);
+//                 ArrayDeque.addLast(4);
+//                 ArrayDeque.addLast(5);
+//                 ArrayDeque.removeFirst();     //==> 3
+//                 ArrayDeque.addLast(7);
+//                 ArrayDeque.addLast(8);
+//                 ArrayDeque.addLast(9);
+//                 ArrayDeque.get(6);      //==> 9
+//                 ArrayDeque.addLast(11);
+//                 ArrayDeque.addLast(12);
+//                 ArrayDeque.get(4);      //==> 7
+//                 ArrayDeque.removeFirst();     //==> 2
+//                 ArrayDeque.removeFirst();
 //    }
 }
