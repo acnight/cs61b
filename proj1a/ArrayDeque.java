@@ -71,8 +71,8 @@ public class ArrayDeque<T> {
         System.arraycopy(theQueue, 1, a, 0, size - 1);
         theQueue = a;
         size -= 1;
-        ratio = size * 100/(theQueue.length);
-        if (ratio < 25) {
+        ratio = size * 100 / (theQueue.length);
+        if (ratio < 25 && ratio != 0) {
             halveSize();
         }
         return b;
@@ -81,8 +81,8 @@ public class ArrayDeque<T> {
         T b = theQueue[size - 1];
         theQueue[size - 1] = null;
         size -= 1;
-        ratio = size * 100/(theQueue.length);
-        if (ratio < 25) {
+        ratio = size * 100 / (theQueue.length);
+        if (ratio < 25 && ratio != 0) {
             halveSize();
         }
         return b;
@@ -94,20 +94,15 @@ public class ArrayDeque<T> {
 //    public static void main(String[] args) {
 //        ArrayDeque<Integer> ArrayDeque = new ArrayDeque<>();
 //        ArrayDeque.addFirst(0);
-//        ArrayDeque.addFirst(1);
-//        ArrayDeque.addFirst(2);
-//        ArrayDeque.addFirst(3);
-//        ArrayDeque.get(3) ;//     ==> 0
+//        ArrayDeque.get(0);      //==> 0
+//        ArrayDeque.removeLast();     // ==> 0
+//        ArrayDeque.addLast(3);
+//        ArrayDeque.removeFirst();     //==> 3
 //        ArrayDeque.addLast(5);
-//        ArrayDeque.get(4) ;//     ==> 5
-//        ArrayDeque.removeFirst() ;//    ==> 3
-//        ArrayDeque.addFirst(8);
-//        ArrayDeque.addFirst(9);
-//        ArrayDeque.removeFirst()  ;//   ==> 9
-//        ArrayDeque.get(3)  ;//    ==> 0
-//        ArrayDeque.addFirst(12);//
-//        ArrayDeque.get(2) ;//     ==> 2
-//        ArrayDeque.removeFirst() ;//    ==> 12
-//        ArrayDeque.removeFirst();
+//        ArrayDeque.get(0);      //==> 5
+//        ArrayDeque.removeFirst();     //==> 5
+//        ArrayDeque.addLast(8);
+//        ArrayDeque.removeFirst();     //==> 8
+//        ArrayDeque.addLast(10);
 //    }
 }
