@@ -4,7 +4,7 @@ public class ArrayDeque<T> {
     public ArrayDeque() {
         theQueue = (T[]) new Object[8];
         size = 0;
-        ratio = size * 100/(theQueue.length);
+        ratio = size * 100 / (theQueue.length);
     }
     private int ratio;
 
@@ -26,7 +26,7 @@ public class ArrayDeque<T> {
     }
 
     private void firstResize() {
-        T[] a = (T[]) new Object[size * 5];
+        T[] a = (T[]) new Object[size * 4];
         System.arraycopy(theQueue, 0, a, 1, size);
         theQueue = a;
     }
@@ -43,8 +43,9 @@ public class ArrayDeque<T> {
         size += 1;
     }
     private void lastResize() {
-        T[] a = (T[]) new Object[size * 5];
+        T[] a = (T[]) new Object[size * 4];
         System.arraycopy(theQueue, 0, a, 0, size);
+        theQueue = a;
     }
     public void addLast(T item) {
         if (size == theQueue.length) {
@@ -55,12 +56,12 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
-        for (int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             System.out.print(theQueue[i] + " ");
         }
     }
     private void halveSize() {
-        T[] a = (T[]) new Object[theQueue.length/2];
+        T[] a = (T[]) new Object[theQueue.length / 2];
         System.arraycopy(theQueue, 0, a, 0, size);
         theQueue = a;
     }
@@ -70,6 +71,7 @@ public class ArrayDeque<T> {
         System.arraycopy(theQueue, 1, a, 0, size - 1);
         theQueue = a;
         size -= 1;
+        ratio = size * 100/(theQueue.length);
         if (ratio < 25) {
             halveSize();
         }
@@ -79,6 +81,7 @@ public class ArrayDeque<T> {
         T b = theQueue[size - 1];
         theQueue[size - 1] = null;
         size -= 1;
+        ratio = size * 100/(theQueue.length);
         if (ratio < 25) {
             halveSize();
         }
@@ -90,17 +93,21 @@ public class ArrayDeque<T> {
 //    /*--------------Test!!!!!--------------*/
 //    public static void main(String[] args) {
 //        ArrayDeque<Integer> ArrayDeque = new ArrayDeque<>();
-//        ArrayDeque.addLast(0);
+//        ArrayDeque.addFirst(0);
+//        ArrayDeque.addFirst(1);
+//        ArrayDeque.addFirst(2);
 //        ArrayDeque.addFirst(3);
-//        ArrayDeque.addFirst(4);
-//        ArrayDeque.get(2);      //==> 0
-//        ArrayDeque.removeLast();      //==> 0
-//        ArrayDeque.get(0);      //==> 4
-//        ArrayDeque.removeLast();      //==> 3
-//        ArrayDeque.addLast(9);
-//        ArrayDeque.removeLast();      //==> 9
-//        ArrayDeque.addFirst(11);
-//        ArrayDeque.removeFirst();     //==> 11
-//        System.out.println(ArrayDeque.removeFirst());     //==> 3
+//        ArrayDeque.get(3) ;//     ==> 0
+//        ArrayDeque.addLast(5);
+//        ArrayDeque.get(4) ;//     ==> 5
+//        ArrayDeque.removeFirst() ;//    ==> 3
+//        ArrayDeque.addFirst(8);
+//        ArrayDeque.addFirst(9);
+//        ArrayDeque.removeFirst()  ;//   ==> 9
+//        ArrayDeque.get(3)  ;//    ==> 0
+//        ArrayDeque.addFirst(12);//
+//        ArrayDeque.get(2) ;//     ==> 2
+//        ArrayDeque.removeFirst() ;//    ==> 12
+//        ArrayDeque.removeFirst();
 //    }
 }
