@@ -22,6 +22,9 @@ public class GuitarString {
         long bufferLonCap = Math.round(bufferDouCap);
         int bufferCap = (int)bufferLonCap;
         buffer = new ArrayRingBuffer(bufferCap);
+        for(int i = 0; i < bufferCap; i++){
+            buffer.enqueue(0.0);
+        }
     }
 
 
@@ -58,7 +61,6 @@ public class GuitarString {
 
     /* Return the double at the front of the buffer. */
     public double sample() {
-        // TODO: Return the correct thing.
         return buffer.peek();
     }
 }

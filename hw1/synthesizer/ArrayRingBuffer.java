@@ -1,6 +1,5 @@
 // TODO: Make sure to make this class a part of the synthesizer package
 package synthesizer;
-import synthesizer.AbstractBoundedQueue;
 
 import java.util.Iterator;
 
@@ -25,6 +24,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         //       you'll need to use this.capacity to set the capacity.
         first = 0;
         last = 0;
+        fillCount = 0;
         this.capacity = capacity;
         rb = (T[]) new Object[this.capacity];
     }
@@ -37,18 +37,17 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     @Override
     public void enqueue(T x) {
         // TODO: Enqueue the item. Don't forget to increase fillCount and update last.
-        if (fillCount == capacity) {
+        if (isFull()) {
             throw new RuntimeException("Ring Buffer Overflow");
+        }
+        if (last == capacity - 1) {
+            rb[last] = x;
+            last = 0;
+            fillCount += 1;
         } else {
-            if (last == capacity - 1) {
-                rb[last] = x;
-                last = 0;
-                fillCount += 1;
-            } else {
-                rb[last] = x;
-                last += 1;
-                fillCount += 1;
-            }
+            rb[last] = x;
+            last += 1;
+            fillCount += 1;
         }
     }
 
@@ -59,23 +58,19 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     @Override
     public T dequeue() {
-        // TODO: Dequeue the first item. Don't forget to decrease fillCount and update
-        if (fillCount == 0) {
+        if (isEmpty()) {
             throw new RuntimeException("Ring Buffer Underflow");
+        }
+        if (first == capacity - 1) {
+            T cache = rb[first];
+            first = 0;
+            fillCount -= 1;
+            return cache;
         } else {
-            if (first == capacity - 1) {
-                T cache = rb[first];
-                rb[first] = null;
-                first = 0;
-                fillCount -= 1;
-                return cache;
-            } else {
-                T cache = rb[first];
-                rb[first] = null;
-                first += 1;
-                fillCount -= 1;
-                return cache;
-            }
+            T cache = rb[first];
+            first += 1;
+            fillCount -= 1;
+            return cache;
         }
     }
 
@@ -85,8 +80,10 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     @Override
     public T peek() {
         // TODO: Return the first item. None of your instance variables should change.
-        T cache = rb[first];
-        return cache;
+        if (isEmpty()) {
+            throw new RuntimeException("Ring Buffer Underflow");
+        }
+        return rb[first];
     }
     @Override
     public Iterator<T> iterator() {
@@ -97,18 +94,15 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         public arrayRingIterator() {
             wizard = 0;
         }
+        @Override
         public boolean hasNext() {
             return wizard < fillCount;
         }
+        @Override
         public T next() {
             T inst = rb[(first + wizard) % 8];
             wizard += 1;
             return inst;
         }
     }
-
-
-
-
-    // TODO: When you get to part 5, implement the needed code to support iteration.
 }

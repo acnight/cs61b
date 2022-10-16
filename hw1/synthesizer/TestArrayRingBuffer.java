@@ -141,6 +141,31 @@ public class TestArrayRingBuffer {
         String Output = arb.peek();
         assertEquals(expected, Output);
     }
+    @Test
+    public void peekTest() {
+        ArrayRingBuffer<Integer> arb = new ArrayRingBuffer(6);
+        arb.enqueue(1);
+        arb.enqueue(2);
+        arb.enqueue(3);
+        arb.enqueue(4);
+        arb.enqueue(5);
+        arb.enqueue(6);
+        arb.dequeue();
+        arb.dequeue();
+        arb.dequeue();
+        arb.dequeue();
+        arb.dequeue();
+        arb.dequeue();
+        arb.enqueue(7);
+        arb.dequeue();
+        arb.enqueue(8);
+        arb.dequeue();
+        arb.enqueue(9);
+
+        int expected = 9;
+        int emptyOutput = arb.peek();
+        assertEquals(expected, emptyOutput);
+    }
 //    @Test
 //    public void irterationTest() {
 //        ArrayRingBuffer<Integer> arb = new ArrayRingBuffer(10);
