@@ -11,6 +11,7 @@ public class Percolation {
     private int N;
     private Set<Integer> openSite = new HashSet<>();
     private WeightedQuickUnionUF fullSite;
+    private WeightedQuickUnionUF singleVirtualSite;
     public Percolation(int N) {
         if (N <= 0) {
             throw new java.lang.IllegalArgumentException("N cant be under zero");
@@ -18,6 +19,7 @@ public class Percolation {
         this.N = N;
         int size = N * N + 2;
         fullSite = new WeightedQuickUnionUF(size);
+        singleVirtualSite = new WeightedQuickUnionUF(size - 1);
     }
 
     /* Return the number of a coordinate.*/
@@ -82,6 +84,7 @@ public class Percolation {
         for (int i = 0; i < temp.length; i++) {
             if (isOpenSimp(temp[i])){
                 fullSite.union(temp[i], A);
+                singleVirtualSite.union(temp[i], A);
             }
         }
     }
@@ -94,13 +97,22 @@ public class Percolation {
             return;
         } else if(row == 0) {   /*如果open的第一行，open即fill*/
             fullSite.union(N * N, repNumber(row, col));
+            singleVirtualSite.union(N * N, repNumber(row, col));
         } else if(row == N - 1) { /*如果open的最后一行，，open就与终点相连*/
             fullSite.union(N * N + 1, repNumber(row, col));
+        }else if(N == 1) { /*特殊情况*/
+            fullSite.union(N * N + 1, repNumber(row, col));
+            fullSite.union(N * N, repNumber(row, col));
+        }else if(isOpen(row, col)) { /*特殊情况*/
+            return;
         }
         // 先加入open的set
         openSite.add(repNumber(row, col));
+        // 与open的相互union
         nearByOpenUnion(N, repNumber(row, col));
+
     }
+
     private static int[] converNumber(int rank, int size){
         int[] temp = new int[2];
         temp[0] = rank / size;
@@ -126,7 +138,7 @@ public class Percolation {
         if (row < 0 || row > N - 1 || col < 0 || col > N - 1  ) {
             throw new java.lang.IndexOutOfBoundsException("row or col out of bound");
         }
-        return fullSite.connected(N * N, repNumber(row, col));
+        return singleVirtualSite.connected(N * N, repNumber(row, col));
     }
 
     // number of open sites
