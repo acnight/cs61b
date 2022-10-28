@@ -126,7 +126,7 @@ public class Percolation {
         if (row < 0 || row > N - 1 || col < 0 || col > N - 1  ) {
             throw new java.lang.IndexOutOfBoundsException("row or col out of bound");
         }
-        return true;
+        return fullSite.connected(N * N, repNumber(row, col));
     }
 
     // number of open sites
