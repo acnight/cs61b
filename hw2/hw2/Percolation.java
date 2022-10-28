@@ -60,7 +60,7 @@ public class Percolation {
         } else if (A % N == 0 && A != 0 && A != N * N - N) { // the far left side situation
             int[] a = {A - N, A + N, A + 1};
             return a;
-        } else if (A % N == 5 && A != N - 1 && A != N * N - 1) { // the far RIGHT side situation
+        } else if (A % N == N - 1 && A != N - 1 && A != N * N - 1) { // the far RIGHT side situation
             int[] a = {A - N, A + N, A - 1};
             return a;
         } else if (A > 0 && A < N - 1) { //the first row
@@ -103,7 +103,7 @@ public class Percolation {
         }else if(N == 1) { /*特殊情况*/
             fullSite.union(N * N + 1, repNumber(row, col));
             fullSite.union(N * N, repNumber(row, col));
-        }else if(isOpen(row, col)) { /*特殊情况*/
+        }else if(isOpen(row, col)) { /*已open了就不做了*/
             return;
         }
         // 先加入open的set
