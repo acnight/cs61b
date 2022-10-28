@@ -54,35 +54,36 @@ public class Percolation {
     }
 
     /*返回相邻的数字组成的数组*/
-    private int[] nearBy(int sideLenth, int A) {
-        if (A > sideLenth * sideLenth - sideLenth && A < sideLenth * sideLenth - 1) { // the down side
-            int[] a = {A - 1, A + 1, A - sideLenth};
+    private int[] nearBy(int sl, int A) {
+        // the down side
+        if (A > sl * sl - sl && A < sl * sl - 1) {
+            int[] a = {A - 1, A + 1, A - sl};
             return a;
-        } else if (A == sideLenth * sideLenth - sideLenth) { //the down left corner
-            int[] a = {sideLenth * sideLenth - 2 * sideLenth, sideLenth * sideLenth - sideLenth + 1};
+        } else if (A == sl * sl - sl) { //the down left corner
+            int[] a = {sl * sl - 2 * sl, sl * sl - sl + 1};
             return a;
-        } else if (A == sideLenth * sideLenth - 1) { //the down right corner
-            int[] a = {sideLenth * sideLenth - 2, sideLenth * sideLenth - 1 - sideLenth};
+        } else if (A == sl * sl - 1) { //the down right corner
+            int[] a = {sl * sl - 2, sl * sl - 1 - sl};
             return a;
             // the far left side situation
-        } else if (A % sideLenth == 0 && A != 0 && A != sideLenth * sideLenth - sideLenth) {
-            int[] a = {A - sideLenth, A + sideLenth, A + 1};
+        } else if (A % sl == 0 && A != 0 && A != sl * sl - sl) {
+            int[] a = {A - sl, A + sl, A + 1};
             return a;
             // the far RIGHT side situation
-        } else if (A % sideLenth == sideLenth - 1 && A != sideLenth - 1 && A != sideLenth * sideLenth - 1) {
-            int[] a = {A - sideLenth, A + sideLenth, A - 1};
+        } else if (A % sl == sl - 1 && A != sl - 1 && A != sl * sl - 1) {
+            int[] a = {A - sl, A + sl, A - 1};
             return a;
-        } else if (A > 0 && A < sideLenth - 1) { //the first row
-            int[] a = {A - 1, A + 1, A + sideLenth};
+        } else if (A > 0 && A < sl - 1) { //the first row
+            int[] a = {A - 1, A + 1, A + sl};
             return a;
         } else if (A == 0) { //the first site
-            int[] a = {1, sideLenth};
+            int[] a = {1, sl};
             return a;
-        } else if (A == sideLenth - 1) { //the up right corner site
-            int[] a = {2 * sideLenth - 1, sideLenth - 2};
+        } else if (A == sl - 1) { //the up right corner site
+            int[] a = {2 * sl - 1, sl - 2};
             return a;
         } else {
-            int[] a = {A - 1, A + 1, A + sideLenth, A - sideLenth};
+            int[] a = {A - 1, A + 1, A + sl, A - sl};
             return a;
         }
 
@@ -102,7 +103,14 @@ public class Percolation {
     public void open(int row, int col) {
         if (row < 0 || row > N - 1 || col < 0 || col > N - 1) {
             throw new java.lang.IndexOutOfBoundsException("row or col out of bound");
-        } else if (isOpen(row, col)) { //if it is already opened,then stop
+        }
+        if (N == 1) { /*特殊情况*/
+            fullSite.union(N * N + 1, repNumber(row, col));
+            fullSite.union(N * N, repNumber(row, col));
+            singleVirtualSite.union(N * N, repNumber(row, col));
+            return;
+        }
+        if (isOpen(row, col)) { //if it is already opened,then stop
             return;
         } else if (row == 0) {   /*如果open的第一行，open即fill*/
             fullSite.union(N * N, repNumber(row, col));
@@ -110,8 +118,9 @@ public class Percolation {
         } else if (row == N - 1) { /*如果open的最后一行，，open就与终点相连*/
             fullSite.union(N * N + 1, repNumber(row, col));
         } else if (N == 1) { /*特殊情况*/
-            fullSite.union(N * N + 1, repNumber(row, col));
-            fullSite.union(N * N, repNumber(row, col));
+            fullSite.union(N * N + 1, N * N);
+            singleVirtualSite.union(N * N, N * N + 1);
+            return;
         } else if (isOpen(row, col)) { /*已open了就不做了*/
             return;
         }

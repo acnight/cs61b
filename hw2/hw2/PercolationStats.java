@@ -2,7 +2,7 @@ package hw2;
 import edu.princeton.cs.introcs.StdStats;
 
 import static edu.princeton.cs.algs4.StdRandom.shuffle;
-import static edu.princeton.cs.algs4.StdRandom.uniform;
+//import static edu.princeton.cs.algs4.StdRandom.uniform;
 
 public class PercolationStats {
     private double[] experminentCount;
@@ -35,7 +35,8 @@ public class PercolationStats {
                 if (po.percolates()) {
                     break;
                 } else {
-                    po.open(converNumber(randomHelper[count], N)[0], converNumber(randomHelper[count], N)[1]);
+                    po.open(converNumber(randomHelper[count], N)[0],
+                            converNumber(randomHelper[count], N)[1]);
                     //System.out.print(converNumber(randomHelper[count], N)[0]);
                     //System.out.print(",");
                     //System.out.println(converNumber(randomHelper[count], N)[1]);
@@ -73,7 +74,7 @@ public class PercolationStats {
     public double confidenceHigh() {
         return mean() + bound * stddev() / (Math.sqrt(T));
     }
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
 //        PercolationFactory m = new PercolationFactory();
 //        PercolationStats p = new PercolationStats(20 ,100, m);
 //
@@ -97,5 +98,5 @@ public class PercolationStats {
         System.out.println(a[3]);
         System.out.println(a[4]);
         */
-    }
+//    }
 }
