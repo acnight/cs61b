@@ -1,6 +1,5 @@
 package hw2;
 import edu.princeton.cs.introcs.StdStats;
-import edu.princeton.cs.introcs.StdRandom;
 
 import static edu.princeton.cs.algs4.StdRandom.shuffle;
 import static edu.princeton.cs.algs4.StdRandom.uniform;
@@ -10,36 +9,37 @@ public class PercolationStats {
     private int[] randomHelper;
     private int N;
     private int T;
+    private final double bound = 1.96;
     // perform T independent experiments on an N-by-N grid
-    public PercolationStats(int N, int T, PercolationFactory pf){
+    public PercolationStats(int N, int T, PercolationFactory pf) {
         this.N = N;
         this.T = T;
         randomHelper = new int[N * N];
 
-        if (N <= 0 || T <= 0 ) {
+        if (N <= 0 || T <= 0) {
             throw new java.lang.IllegalArgumentException("N or T out of bound");
         }
 
         experminentCount = new double[T];
-        for(int j = 0; j < T; j++){
-/*initialize randonHelper*/
-            for(int k = 0; k < N * N; k ++) {
+        for (int j = 0; j < T; j++) {
+            /*initialize randonHelper*/
+            for (int k = 0; k < N * N; k++) {
                 randomHelper[k] = k;
             }
 
             shuffle(randomHelper);
 
-            Percolation po = pf.make(N);// create percolation like homework sheet describe
+            Percolation po = pf.make(N); // create percolation like homework sheet describe
             int count = 0;
-            for(int i = 0; i < N * N; i ++){
-                if(po.percolates()){
+            for (int i = 0; i < N * N; i++) {
+                if (po.percolates()) {
                     break;
                 } else {
                     po.open(converNumber(randomHelper[count], N)[0], converNumber(randomHelper[count], N)[1]);
-//                    System.out.print(converNumber(randomHelper[count], N)[0]);
-//                    System.out.print(",");
-//                    System.out.println(converNumber(randomHelper[count], N)[1]);
-                    count ++;
+                    //System.out.print(converNumber(randomHelper[count], N)[0]);
+                    //System.out.print(",");
+                    //System.out.println(converNumber(randomHelper[count], N)[1]);
+                    count++;
                 }
             }
             experminentCount[j] = count;
@@ -47,7 +47,7 @@ public class PercolationStats {
     }
 
     //convert an int to coordinate
-    private int[] converNumber(int rank, int size){
+    private int[] converNumber(int rank, int size) {
         int[] temp = new int[2];
         temp[0] = rank / size;
         temp[1] = rank % size;
@@ -55,30 +55,29 @@ public class PercolationStats {
     }
 
     // sample mean of percolation threshold
-    public double mean(){
-        return StdStats.mean(this.experminentCount)/(N * N);
+    public double mean() {
+        return StdStats.mean(this.experminentCount) / (N * N);
     }
 
     // sample standard deviation of percolation threshold
-    public double stddev(){
-        return StdStats.stddev(this.experminentCount)/(N * N);
+    public double stddev() {
+        return StdStats.stddev(this.experminentCount) / (N * N);
     }
 
     // low endpoint of 95% confidence interval
-    public double confidenceLow(){
-        return mean() - 1.96 * stddev()/(Math.sqrt(T));
+    public double confidenceLow() {
+        return mean() - bound * stddev() / (Math.sqrt(T));
     }
 
     // high endpoint of 95% confidence interval
-    public double confidenceHigh(){
-        return mean() + 1.96 * stddev()/(Math.sqrt(T));
+    public double confidenceHigh() {
+        return mean() + bound * stddev() / (Math.sqrt(T));
     }
-//    public static void main(String[] args){
+    public static void main(String[] args) {
 //        PercolationFactory m = new PercolationFactory();
-//        PercolationStats p = new PercolationStats(20,100, m);
-////        for(int i = 0; i < 20; i++) {
-////            System.out.println(p.experminentCount[i]);
-////        }
+//        PercolationStats p = new PercolationStats(20 ,100, m);
+//
+//
 //        System.out.println(p.mean());
 //        System.out.println(p.stddev());
 //        System.out.println(p.confidenceLow());
@@ -86,8 +85,8 @@ public class PercolationStats {
 
 
         //Test converNumber
-//      System.out.println(converNumber(12,6)[0]);
-//      System.out.println(converNumber(12,6)[1]);
+        //System.out.println(converNumber(12,6)[0]);
+        //System.out.println(converNumber(12,6)[1]);
 
         /* //test how to use shuffle
         int[] a = {1,2,3,4,5};
@@ -98,5 +97,5 @@ public class PercolationStats {
         System.out.println(a[3]);
         System.out.println(a[4]);
         */
-//    }
+    }
 }

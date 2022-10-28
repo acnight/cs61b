@@ -30,59 +30,68 @@ public class Percolation {
     /*Check will this item be filled after open(四周一圈的也是不同的)*/
     private boolean adjecent(int A) {
         if (A > N * N - N && A < N * N - 1) { // the down side
-            return fullSite.connected(A - 1, N * N) || fullSite.connected(A + 1, N * N) || fullSite.connected(A - N, N * N);
+            return fullSite.connected(A - 1, N * N)
+                    || fullSite.connected(A + 1, N * N) || fullSite.connected(A - N, N * N);
         } else if (A == N * N - N) { //the down left corner
-            return fullSite.connected(N * N - 2 * N, N * N) || fullSite.connected(N * N - N + 1, N * N);
+            return fullSite.connected(N * N - 2 * N, N * N)
+                    || fullSite.connected(N * N - N + 1, N * N);
         } else if (A == N * N - 1) { //the down right corner
-            return fullSite.connected(N * N - 2, N * N) || fullSite.connected(N * N - 1 - N, N * N);
+            return fullSite.connected(N * N - 2, N * N)
+                    || fullSite.connected(N * N - 1 - N, N * N);
         } else if (A % N == 0 && A != 0 && A != N * N - N) { // the far left side situation
-            return fullSite.connected(A - N, N * N) || fullSite.connected(A + N, N * N) || fullSite.connected(A + 1, N * N);
-        } else if (A % N == 5 && A != N - 1 && A != N * N - 1) { // the far RIGHT side situation
-            return fullSite.connected(A - N, N * N) || fullSite.connected(A + N, N * N) || fullSite.connected(A - 1, N * N);
+            return fullSite.connected(A - N, N * N)
+                    || fullSite.connected(A + N, N * N) || fullSite.connected(A + 1, N * N);
+        } else if (A % N == N - 1 && A != N - 1 && A != N * N - 1) { // the far RIGHT side situation
+            return fullSite.connected(A - N, N * N)
+                    || fullSite.connected(A + N, N * N) || fullSite.connected(A - 1, N * N);
         } else if (A >= 0 && A < N) { //the first row must be full
             return true;
         } else {
-            return fullSite.connected(A - 1, N * N) || fullSite.connected(A + 1, N * N) || fullSite.connected(A + N, N * N) ||fullSite.connected(A - N, N * N);
+            return fullSite.connected(A - 1, N * N)
+                    || fullSite.connected(A + 1, N * N) || fullSite.connected(A + N, N * N)
+                    || fullSite.connected(A - N, N * N);
         }
     }
 
     /*返回相邻的数字组成的数组*/
-    private int[] nearBy(int N, int A) {
-        if (A > N * N - N && A < N * N - 1) { // the down side
-            int[] a = {A - 1, A + 1, A - N};
+    private int[] nearBy(int sideLenth, int A) {
+        if (A > sideLenth * sideLenth - sideLenth && A < sideLenth * sideLenth - 1) { // the down side
+            int[] a = {A - 1, A + 1, A - sideLenth};
             return a;
-        } else if (A == N * N - N) { //the down left corner
-            int[] a = {N * N - 2 * N, N * N - N + 1};
+        } else if (A == sideLenth * sideLenth - sideLenth) { //the down left corner
+            int[] a = {sideLenth * sideLenth - 2 * sideLenth, sideLenth * sideLenth - sideLenth + 1};
             return a;
-        } else if (A == N * N - 1) { //the down right corner
-            int[] a = {N * N - 2, N * N - 1 - N};
+        } else if (A == sideLenth * sideLenth - 1) { //the down right corner
+            int[] a = {sideLenth * sideLenth - 2, sideLenth * sideLenth - 1 - sideLenth};
             return a;
-        } else if (A % N == 0 && A != 0 && A != N * N - N) { // the far left side situation
-            int[] a = {A - N, A + N, A + 1};
+            // the far left side situation
+        } else if (A % sideLenth == 0 && A != 0 && A != sideLenth * sideLenth - sideLenth) {
+            int[] a = {A - sideLenth, A + sideLenth, A + 1};
             return a;
-        } else if (A % N == N - 1 && A != N - 1 && A != N * N - 1) { // the far RIGHT side situation
-            int[] a = {A - N, A + N, A - 1};
+            // the far RIGHT side situation
+        } else if (A % sideLenth == sideLenth - 1 && A != sideLenth - 1 && A != sideLenth * sideLenth - 1) {
+            int[] a = {A - sideLenth, A + sideLenth, A - 1};
             return a;
-        } else if (A > 0 && A < N - 1) { //the first row
-            int[] a = {A - 1, A + 1, A + N};
+        } else if (A > 0 && A < sideLenth - 1) { //the first row
+            int[] a = {A - 1, A + 1, A + sideLenth};
             return a;
         } else if (A == 0) { //the first site
-            int[] a = {1, N};
+            int[] a = {1, sideLenth};
             return a;
-        } else if (A == N - 1) { //the up right corner site
-            int[] a = {2 * N -1, N - 2};
+        } else if (A == sideLenth - 1) { //the up right corner site
+            int[] a = {2 * sideLenth - 1, sideLenth - 2};
             return a;
         } else {
-            int[] a = {A - 1, A + 1, A + N, A - N};
+            int[] a = {A - 1, A + 1, A + sideLenth, A - sideLenth};
             return a;
         }
 
     }
 
-    private void nearByOpenUnion(int N, int A) {
-        int[] temp = nearBy(N, A);
+    private void nearByOpenUnion(int sideLenth, int A) {
+        int[] temp = nearBy(sideLenth, A);
         for (int i = 0; i < temp.length; i++) {
-            if (isOpenSimp(temp[i])){
+            if (isOpenSimp(temp[i])) {
                 fullSite.union(temp[i], A);
                 singleVirtualSite.union(temp[i], A);
             }
@@ -91,19 +100,19 @@ public class Percolation {
 
     // open the site (row, col) if it is not open already
     public void open(int row, int col) {
-        if (row < 0 || row > N - 1 || col < 0 || col > N - 1  ) {
+        if (row < 0 || row > N - 1 || col < 0 || col > N - 1) {
             throw new java.lang.IndexOutOfBoundsException("row or col out of bound");
-        } else if (isOpen(row, col)){ //if it is already opened,then stop
+        } else if (isOpen(row, col)) { //if it is already opened,then stop
             return;
-        } else if(row == 0) {   /*如果open的第一行，open即fill*/
+        } else if (row == 0) {   /*如果open的第一行，open即fill*/
             fullSite.union(N * N, repNumber(row, col));
             singleVirtualSite.union(N * N, repNumber(row, col));
-        } else if(row == N - 1) { /*如果open的最后一行，，open就与终点相连*/
+        } else if (row == N - 1) { /*如果open的最后一行，，open就与终点相连*/
             fullSite.union(N * N + 1, repNumber(row, col));
-        }else if(N == 1) { /*特殊情况*/
+        } else if (N == 1) { /*特殊情况*/
             fullSite.union(N * N + 1, repNumber(row, col));
             fullSite.union(N * N, repNumber(row, col));
-        }else if(isOpen(row, col)) { /*已open了就不做了*/
+        } else if (isOpen(row, col)) { /*已open了就不做了*/
             return;
         }
         // 先加入open的set
@@ -113,7 +122,7 @@ public class Percolation {
 
     }
 
-    private static int[] converNumber(int rank, int size){
+    private static int[] converNumber(int rank, int size) {
         int[] temp = new int[2];
         temp[0] = rank / size;
         temp[1] = rank % size;
@@ -122,7 +131,7 @@ public class Percolation {
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
-        if (row < 0 || row > N - 1 || col < 0 || col > N - 1  ) {
+        if (row < 0 || row > N - 1 || col < 0 || col > N - 1) {
             throw new java.lang.IndexOutOfBoundsException("row or col out of bound");
         } else {
             return openSite.contains(repNumber(row, col));
@@ -130,19 +139,19 @@ public class Percolation {
     }
 
     private boolean isOpenSimp(int A) {
-            return openSite.contains(A);
+        return openSite.contains(A);
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
-        if (row < 0 || row > N - 1 || col < 0 || col > N - 1  ) {
+        if (row < 0 || row > N - 1 || col < 0 || col > N - 1) {
             throw new java.lang.IndexOutOfBoundsException("row or col out of bound");
         }
         return singleVirtualSite.connected(N * N, repNumber(row, col));
     }
 
     // number of open sites
-    public int numberOfOpenSites(){
+    public int numberOfOpenSites() {
         return openSite.size();
     }
 
