@@ -1,4 +1,5 @@
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
@@ -14,12 +15,16 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     public ArrayHeap() {
         contents = new ArrayHeap.Node[16];
 
-        /* Add a dummy item at the front of the ArrayHeap so that the getLeft,
-         * getRight, and parent methods are nicer. */
+        /*
+         * Add a dummy item at the front of the ArrayHeap so that the getLeft, getRight,
+         * and parent methods are nicer.
+         */
         contents[0] = null;
 
-        /* Even though there is an empty spot at the front, we still consider
-         * the size to be 0 since nothing has been inserted yet. */
+        /*
+         * Even though there is an empty spot at the front, we still consider the size
+         * to be 0 since nothing has been inserted yet.
+         */
         size = 0;
     }
 
@@ -27,7 +32,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Returns the index of the node to the left of the node at i.
      */
     private static int leftIndex(int i) {
-        /* TODO: Your code here! */
         return 2 * i;
     }
 
@@ -35,7 +39,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Returns the index of the node to the right of the node at i.
      */
     private static int rightIndex(int i) {
-        /* TODO: Your code here! */
         return 2 * i + 1;
     }
 
@@ -43,7 +46,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Returns the index of the node that is the parent of the node at i.
      */
     private static int parentIndex(int i) {
-        /* TODO: Your code here! */
         return i / 2;
     }
 
@@ -59,9 +61,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     }
 
     /**
-     * Returns true if the index corresponds to a valid item. For example, if
-     * we have 5 items, then the valid indices are 1, 2, 3, 4, 5. Index 0 is
-     * invalid because we leave the 0th entry blank.
+     * Returns true if the index corresponds to a valid item. For example, if we
+     * have 5 items, then the valid indices are 1, 2, 3, 4, 5. Index 0 is invalid
+     * because we leave the 0th entry blank.
      */
     private boolean inBounds(int index) {
         if ((index > size) || (index < 1)) {
@@ -80,10 +82,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         contents[index2] = node1;
     }
 
-
     /**
-     * Returns the index of the node with smaller priority. Precondition: not
-     * both nodes are null.
+     * Returns the index of the node with smaller priority. Precondition: not both
+     * nodes are null.
      */
     private int min(int index1, int index2) {
         Node node1 = getNode(index1);
@@ -99,7 +100,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         }
     }
 
-
     /**
      * Bubbles up the node currently at the given index.
      */
@@ -107,16 +107,12 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
 
-        /** TODO: Your code here. */
-
-        while (min(index, parentIndex(index)) == index) {
-            swap(index, parentIndex(index));
-            index = parentIndex(index);
-            if (index == 1) {
-                return;
-            }
+        int pIndex = parentIndex(index);
+        while (inBounds(pIndex) && getNode(index).myPriority < getNode(pIndex).myPriority) {
+            swap(index, pIndex);
+            index = pIndex;
+            pIndex = parentIndex(index);
         }
-        return;
     }
 
     /**
@@ -126,32 +122,17 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
 
-        /** TODO: Your code here. */
-        while (min(index, rightIndex(index)) == rightIndex(index) || min(index, leftIndex(index)) == leftIndex(index)) {
-            int r = rightIndex(index);
-            int l = leftIndex(index);
-            if ((!inBounds(r)) && (!inBounds(l))) {
-                return;
-            }
-            if (min(index, r) == index && min(index, l) == l) {
-                swap(index, l);
-                index = l;
-            } else if (min(index, r) == r && min(index, l) == index) {
-                swap(index, r);
-                index = r;
-            } else {
-                int smallTarget = min(rightIndex(index), leftIndex(index));
-                swap(index, smallTarget);
-                index = smallTarget;
-            }
+        int minChildIndex = min(leftIndex(index), rightIndex(index));
+        while (inBounds(minChildIndex) && getNode(index).myPriority > getNode(minChildIndex).myPriority) {
+            swap(index, minChildIndex);
+            index = minChildIndex;
+            minChildIndex = min(leftIndex(index), rightIndex(index));
         }
-
-        return;
     }
 
     /**
-     * Inserts an item with the given priority value. This is enqueue, or offer.
-     * To implement this method, add it to the end of the ArrayList, then swim it.
+     * Inserts an item with the given priority value. This is enqueue, or offer. To
+     * implement this method, add it to the end of the ArrayList, then swim it.
      */
     @Override
     public void insert(T item, double priority) {
@@ -159,59 +140,51 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         if (size + 1 == contents.length) {
             resize(contents.length * 2);
         }
-        /* TODO: Your code here! */
-        Node insertN = new Node(item, priority);
-        if (size == 0) {
-            size += 1;
-            contents[1] = insertN;
-        } else {
-            size += 1;
-            contents[size] = insertN;
-            swim(size);
-        }
-        return;
+
+        contents[++size] = new ArrayHeap<T>.Node(item, priority);
+        swim(size);
     }
 
     /**
      * Returns the Node with the smallest priority value, but does not remove it
-     * from the heap. To implement this, return the item in the 1st position of the ArrayList.
+     * from the heap. To implement this, return the item in the 1st position of the
+     * ArrayList.
      */
     @Override
     public T peek() {
-        /* TODO: Your code here! */
-        if (size == 0) {
+        if (size <= 0) {
             return null;
         }
         return contents[1].myItem;
     }
 
     /**
-     * Returns the Node with the smallest priority value, and removes it from
-     * the heap. This is dequeue, or poll. To implement this, swap the last
-     * item from the heap into the root position, then sink the root. This is
-     * equivalent to firing the president of the company, taking the last
-     * person on the list on payroll, making them president, and then demoting
-     * them repeatedly. Make sure to avoid loitering by nulling out the dead
-     * item.
+     * Returns the Node with the smallest priority value, and removes it from the
+     * heap. This is dequeue, or poll. To implement this, swap the last item from
+     * the heap into the root position, then sink the root. This is equivalent to
+     * firing the president of the company, taking the last person on the list on
+     * payroll, making them president, and then demoting them repeatedly. Make sure
+     * to avoid loitering by nulling out the dead item.
      */
     @Override
     public T removeMin() {
-        /* TODO: Your code here! */
-        T minValue = peek();
         if (size == 0) {
             return null;
         }
+        T res = peek();
         swap(1, size);
-        contents[size] = null;
-        size--;
+        contents[size--] = null;
+        if (size == 0) {
+            return res;
+        }
         sink(1);
-        return minValue;
+        return res;
     }
 
     /**
-     * Returns the number of items in the PQ. This is one less than the size
-     * of the backing ArrayList because we leave the 0th element empty. This
-     * method has been implemented for you.
+     * Returns the number of items in the PQ. This is one less than the size of the
+     * backing ArrayList because we leave the 0th element empty. This method has
+     * been implemented for you.
      */
     @Override
     public int size() {
@@ -219,23 +192,25 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     }
 
     /**
-     * Change the node in this heap with the given item to have the given
-     * priority. You can assume the heap will not have two nodes with the same
-     * item. Check item equality with .equals(), not ==. This is a challenging
-     * bonus problem, but shouldn't be too hard if you really understand heaps
-     * and think about the algorithm before you start to code.
+     * Change the node in this heap with the given item to have the given priority.
+     * You can assume the heap will not have two nodes with the same item. Check
+     * item equality with .equals(), not ==. This is a challenging bonus problem,
+     * but shouldn't be too hard if you really understand heaps and think about the
+     * algorithm before you start to code.
      */
     @Override
     public void changePriority(T item, double priority) {
-        /* TODO: Your code here! */
         for (int i = 1; i <= size; i++) {
             if (contents[i].myItem.equals(item)) {
-                contents[i].myPriority = priority;
-                sink(i);
-                swim(i);
+                if (priority > contents[i].myPriority) {
+                    contents[i].myPriority = priority;
+                    sink(i);
+                } else {
+                    contents[i].myPriority = priority;
+                    swim(i);
+                }
             }
         }
-        return;
     }
 
     /**
@@ -267,7 +242,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         }
     }
 
-
     /**
      * Throws an exception if the index is invalid for sinking or swimming.
      */
@@ -292,7 +266,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             myPriority = priority;
         }
 
-        public T item(){
+        public T item() {
             return myItem;
         }
 
@@ -306,8 +280,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         }
     }
 
-
-    /** Helper function to resize the backing array when necessary. */
+    /**
+     * Helper function to resize the backing array when necessary.
+     */
     private void resize(int capacity) {
         Node[] temp = new ArrayHeap.Node[capacity];
         for (int i = 1; i < this.contents.length; i++) {
@@ -381,7 +356,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         assertEquals("x7", pq.contents[7].myItem);
     }
 
-
     @Test
     public void testInsert() {
         ArrayHeap<String> pq = new ArrayHeap<>();
@@ -417,7 +391,6 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         assertEquals("c", pq.contents[9].myItem);
         assertEquals("d", pq.contents[10].myItem);
     }
-
 
     @Test
     public void testInsertAndRemoveOnce() {
@@ -461,7 +434,7 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         pq.insert("d", 4);
 
         int i = 0;
-        String[] expected = {"a", "b", "c", "c", "d", "d", "e", "g", "h", "i"};
+        String[] expected = { "a", "b", "c", "c", "d", "d", "e", "g", "h", "i" };
         while (pq.size() > 1) {
             assertEquals(expected[i], pq.removeMin());
             i += 1;
